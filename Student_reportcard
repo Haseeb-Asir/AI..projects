@@ -1,0 +1,67 @@
+PROJECT 1 :
+📝 Project Description:
+You will build a simple CLI-based Student Report Card system that takes student details and their marks in 3 subjects, calculates their average, assigns a grade, and stores their data in a dictionary.
+
+# Function to calculate the average marks and grade
+def calculate_grade(average_marks):
+    if average_marks >= 90:
+        grade = 'A+'
+    elif average_marks >= 80:
+        grade = 'A'
+    elif average_marks >= 70:
+        grade = 'B'
+    elif average_marks >= 60:
+        grade = 'C'
+    elif average_marks >= 50:
+        grade = 'D'
+    else:
+        grade = 'F'
+    return grade
+
+# Function to get student data and store it in a dictionary
+def get_student_data():
+    student_data = {}
+
+    # Get student name
+    name = input("Enter student's name: ")
+
+    # Get marks in 3 subjects
+    marks1 = float(input("Enter marks for subject 1: "))
+    marks2 = float(input("Enter marks for subject 2: "))
+    marks3 = float(input("Enter marks for subject 3: "))
+
+    # Calculate average marks
+    average_marks = (marks1 + marks2 + marks3) / 3
+
+    # Assign grade
+    grade = calculate_grade(average_marks)
+
+    # Store data in dictionary
+    student_data["Name"] = name
+    student_data["Subject 1"] = marks1
+    student_data["Subject 2"] = marks2
+    student_data["Subject 3"] = marks3
+    student_data["Average Marks"] = average_marks
+    student_data["Grade"] = grade
+
+    return student_data
+
+# Function to display the report card
+def display_report_card(student_data):
+    print("\n--- Student Report Card ---")
+    print(f"Name: {student_data['Name']}")
+    print(f"Marks in Subject 1: {student_data['Subject 1']}")
+    print(f"Marks in Subject 2: {student_data['Subject 2']}")
+    print(f"Marks in Subject 3: {student_data['Subject 3']}")
+    print(f"Average Marks: {student_data['Average Marks']:.2f}")
+    print(f"Grade: {student_data['Grade']}")
+
+# Main function to run the program
+def main():
+    print("Welcome to the Student Report Card System")
+    student_data = get_student_data()
+    display_report_card(student_data)
+
+if __name__ == "__main__":
+    main()
+
