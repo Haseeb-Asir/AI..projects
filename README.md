@@ -7,6 +7,13 @@ Welcome to my collection of AI projects! This repository will feature the variou
 
 - **Student Report Card System**  
   A simple CLI-based system to input student details, calculate average marks in 3 subjects, assign a grade, and store the data in a dictionary.
+  - **Studend Grade Analyzer**
+     Input unlimited student records via interactive prompts
+    Implements A-F scale using conditional logic
+    Calculates individual averages
+    Identifies top performer using max() with custom keys
+  
+  
 
 ## Technologies Used
 
