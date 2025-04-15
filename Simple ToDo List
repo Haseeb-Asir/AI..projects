@@ -1,0 +1,28 @@
+# Simple To-Do List
+tasks = []
+
+while True:
+    print("\nTo-Do List:")
+    for i, task in enumerate(tasks, 1):
+        print(f"{i}. {task}")
+    
+    print("\nOptions: add | delete | quit")
+    action = input("Choose action: ").lower()
+    
+    if action == 'add':
+        task = input("Enter task: ")
+        tasks.append(task)
+    elif action == 'delete':
+        if not tasks:
+            print("No tasks to delete!")
+            continue
+        task_num = int(input("Enter task number to delete: ")) - 1
+        if 0 <= task_num < len(tasks):
+            removed = tasks.pop(task_num)
+            print(f"Removed: {removed}")
+        else:
+            print("Invalid task number!")
+    elif action == 'quit':
+        break
+    else:
+        print("Invalid action!")
