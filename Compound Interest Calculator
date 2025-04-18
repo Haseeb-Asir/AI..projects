@@ -1,0 +1,37 @@
+# Compound interest calculator
+# Gives yearly interest for years, monthly interest for months.
+
+print("🔢 Compound Interest Calculator 🔢")
+try:
+    principal = float(input("Enter the principal amount ($): "))
+    rate = float(input("Enter the annual rate of interest (%): "))
+
+    while True:
+        choice = input("Do you want to enter time in 'years' or 'months'? ").strip().lower()
+
+        if choice == 'years':
+            time = float(input("Enter the time in years: "))
+            # Yearly compounding
+            amount = principal * (1 + rate / 100) ** time
+            compound_interest = amount - principal
+            print(f"\n💰 Yearly Compound Interest: ${compound_interest:.2f}")
+            print(f"📈 Total Amount after {time} years: ${amount:.2f}")
+            break
+
+        elif choice == 'months':
+            time = float(input("Enter the time in months: "))
+            months = time
+            rate_monthly = rate / 12
+            time_in_years = time / 12  # For display only
+            # Monthly compounding
+            amount = principal * (1 + rate_monthly / 100) ** months
+            compound_interest = amount - principal
+            print(f"\n💰 Monthly Compound Interest: ${compound_interest:.2f}")
+            print(f"📈 Total Amount after {months} months ({time_in_years:.2f} years): ${amount:.2f}")
+            break
+
+        else:
+            print("❌ Invalid input. Please enter 'years' or 'months'.")
+
+except ValueError:
+    print("⚠️ Please enter valid numeric values.")
