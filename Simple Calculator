@@ -1,18 +1,96 @@
-# Simple Calculator
-num1 = float(input("Enter first number: "))
-num2 = float(input("Enter second number: "))
-operation = input("Choose operation (+, -, *, /): ")
+# Calculator 
+# calculates based upon input 
+history = []
+def add(*args):
+    result = sum(args)
+    history.append(result)
+    return result
 
-if operation == '+':
-    print(f"Result: {num1 + num2}")
-elif operation == '-':
-    print(f"Result: {num1 - num2}")
-elif operation == '*':
-    print(f"Result: {num1 * num2}")
-elif operation == '/':
-    if num2 != 0:
-        print(f"Result: {num1 / num2}")
-    else:
-        print("Error: Division by zero!")
-else:
-    print("Invalid operation!")
+    
+
+def subtract(*args):
+    sub = 0
+    for i in args:
+        if sub == 0:
+            sub = i
+        else:
+            sub -= i
+    history.append(sub)
+    return sub
+    
+
+def division(*args):
+    div = 0
+    for i in args:
+        if div == 0:
+            div = i    
+        else:
+            div /= i
+    history.append(div)
+    return div
+    
+
+
+def multiply(*args):
+    mul = 1
+    for i in args:
+        if i == 0:
+            return 0
+        else: 
+            mul *= i
+    history.append(mul)
+    return mul
+    
+        
+ 
+print("..............Welcome to the calculator!..................")
+print()
+
+print("Enter numbers you want to perform calclulation on and the operation you want to perform")
+print()
+num = 1
+tup = []
+while True:
+        
+        inp = input(f"Enter the number {num}: (-10 to exit) ")
+        inp = float(inp)
+
+        if inp == -10:
+                break
+        else:
+            num += 1
+            tup.append(inp)
+
+
+print("Enter the operation you want to perform: (add, subtract, multiply, divide)")
+print()
+opr = input("Enter the operation: (q to exit) ")
+
+while True:
+    
+    
+     if opr.lower() == 'q':
+            break
+     else:
+            if opr.lower() == 'add':
+                print("The sum is: ", add(*tup))
+                break
+            elif opr.lower() == 'subtract':
+                print("The difference is: ", subtract(*tup))
+                break
+            elif opr.lower() == 'multiply':
+                print("The product is: ", multiply(*tup))
+                break
+            elif opr.lower() == 'divide':
+                print("The quotient is: ", division(*tup))
+                break
+            else:
+                print("Invalid operation!")
+                break
+     
+
+     
+     
+print("History of calculations: ", history)
+
+print("         Thank you for using the calculator!        ")
