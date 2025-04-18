@@ -1,0 +1,33 @@
+#QUIZ PROGRAM
+# 1. Create a list of dictionaries to store quiz questions, options, and answers.
+quiz_questions = ["What is the capital of France?", "What is 2 + 2?", "What is the largest planet in our solar system?"]
+quiz_options = [["A) Paris", "B) London", "C) Berlin", "D) Madrid"], ["A) 3", "B) 4", "C) 5", "D) 6"], ["A) Earth", "B) Mars", "C) Jupiter", "D) Saturn"]]
+
+quiz_answers = ["A", "B", "C"]
+guess = []
+
+
+def quiz():
+    index = 0
+    score = 0
+    print("Welcome to the Quiz!")
+    print("Please answer the following questions:\n")
+    # Loop through each question and its options
+    for i in range(len(quiz_questions)):
+        print(quiz_questions[i])
+        for j in quiz_options[i]:
+            print(j)
+        # Get user's answer
+        answer = input("Your answer (A, B, C, or D): ").upper()
+        guess.append(answer)
+        if answer == quiz_answers[i]:
+            print("Correct!\n")
+            score += 1
+        else:
+            print("Incorrect. The correct answer is " + quiz_answers[index] + "\n")
+        index += 1
+    print("Your score is " + str(score) + f" out of {len(quiz_questions)}. And {score/len(quiz_questions)*100}%")
+    print("Thank you for playing!")
+
+
+quiz()
