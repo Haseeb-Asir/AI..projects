@@ -1,0 +1,16 @@
+import time as t
+
+start = int(input("Enter countdown start (in seconds): "))
+
+def countdown():
+    for i in range(start, -1, -1):
+        seconds = i % 60
+        minutes = (i // 60) % 60
+        hours = i // 3600
+        print(f"{hours:02}:{minutes:02}:{seconds:02}", end="\r")
+        t.sleep(1)
+
+print("Countdown started")
+countdown()
+print("\nCountdown finished 🎉")
+print("Time's up!")
