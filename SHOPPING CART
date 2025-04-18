@@ -1,0 +1,57 @@
+foods = []
+prices = []
+
+def shopping_cart():
+    total = 0
+    print("SHOPPING CART FOR FOOD AND THEIR PRICES")
+
+    while True:
+        print("\n=========================")
+        print("Select command to perform:")
+        print("1. Add food item")
+        print("2. Remove food item")
+        print("3. View food items")
+        print("4. Exit and print bill")
+        command = input("Enter command: ")
+
+        if command == "1":
+            food = input("Enter food item: ")
+            try:
+                price = float(input("Enter price of food item: "))
+                foods.append(food)
+                prices.append(price)
+                print(f"✅ Added '{food}' with price {price} to the cart.")
+            except ValueError:
+                print("❌ Please enter a valid price.")
+        
+        elif command == "2":
+            food = input("Enter food item to remove: ")
+            if food in foods:
+                index = foods.index(food)
+                foods.pop(index)
+                prices.pop(index)
+                print(f"🗑️ Removed '{food}' from the cart.")
+            else:
+                print(f"❌ '{food}' not found in the cart.")
+        
+        elif command == "3":
+            print("\n🛒 Food items in the cart:")
+            if not foods:
+                print("Cart is empty.")
+            else:
+                for food, price in zip(foods, prices):
+                    print(f"• {food}: ${price:.2f}")
+        
+        elif command == "4":
+            print("\n🧾 Final Bill:")
+            for food, price in zip(foods, prices):
+                print(f"{food}: ${price:.2f}")
+                total += price
+            print(f"💰 Total: ${total:.2f}")
+            print("🛍️ Thank you for shopping!")
+            break
+        
+        else:
+            print("❌ Invalid command. Please try again.")
+
+shopping_cart()
