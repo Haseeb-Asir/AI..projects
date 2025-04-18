@@ -1,0 +1,30 @@
+def convert_weight(weight, unit, unt2):
+    # Conversion factors stored in a dictionary
+    conversion_factors = {
+        'kg': {'lb': 2.20462, 'g': 1000, 'mg': 1000000},
+        'lb': {'kg': 1 / 2.20462, 'g': 453.592, 'mg': 453592},
+        'g': {'kg': 1 / 1000, 'lb': 1 / 453.592, 'mg': 1000},
+        'mg': {'kg': 1 / 1000000, 'lb': 1 / 453592, 'g': 1 / 1000}
+    }
+    
+    # Check if units are valid
+    if unit not in conversion_factors or unt2 not in conversion_factors[unit]:
+        return "Invalid unit"
+    
+    # Perform the conversion
+    return weight * conversion_factors[unit][unt2]
+
+# Input from user
+weight = input("Enter weight: ")
+unit = input("Enter unit kg/lb/g/mg: ").lower()
+unt2 = input("Enter unit to convert to kg/lb/g/mg: ").lower()
+
+try:
+    weight = float(weight)  # Convert weight to float
+    result = convert_weight(weight, unit, unt2)
+    if result == "Invalid unit":
+        print("Invalid unit entered. Please try again with correct units.")
+    else:
+        print(f"{weight} {unit} is equal to {result} {unt2}")
+except ValueError:
+    print("Please enter a valid number for weight.")
