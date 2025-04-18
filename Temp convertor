@@ -1,0 +1,23 @@
+# Temperator conversion programm
+
+def temp_convert(temp, unit1, unit2):
+
+    data= {'C':{'k':temp + 273.15, 'f': temp * 9/5 + 32},
+            'F':{'k':(temp - 32) *5/9 + 273.15, 'c': (temp - 32) * 5/9},
+            'K':{'c':temp - 273.15, 'f': temp * 9/5 - 459.67}}
+    return data[unit1][unit2]
+    
+    
+
+
+print("Welcome to the temperature conversion program!")
+
+print("Please enter the temperature you want to convert:")
+temp = float(input())
+print("Please enter the unit of the temperature you entered (C, F, K):")
+unit1 = input().upper()
+print("Please enter the unit you want to convert to (C, F, K):")
+unit2 = input().lower()
+ 
+print("The converted temperature is:")
+print(temp_convert(temp, unit1, unit2), unit2)
