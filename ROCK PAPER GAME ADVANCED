@@ -1,0 +1,130 @@
+# ROCK PAPER SCISSORS GAME
+import time
+import random as r
+import winsound as w
+
+options = ["rock", "paper", "scissors"]
+
+def welcome_beep():
+    w.Beep(800, 200)
+    time.sleep(0.1)
+    w.Beep(1000, 250)
+
+def round_start_beep():
+    w.Beep(400, 150)
+    time.sleep(0.2)
+    w.Beep(600, 150)
+    time.sleep(0.2)
+    w.Beep(800, 200)
+
+def result_beep():
+    w.Beep(700, 100)
+
+def win_beep():
+    w.Beep(1000, 300)
+
+def lose_beep():
+    w.Beep(400, 300)
+
+def tie_beep():
+    w.Beep(600, 200)
+
+def check_winner(p1, p2):
+    if p1 == p2:
+        tie_beep()
+        return "tie"
+    elif (p1 == "rock" and p2 == "scissors") or \
+         (p1 == "paper" and p2 == "rock") or \
+         (p1 == "scissors" and p2 == "paper"):
+        win_beep()
+        return "p1"
+    else:
+        lose_beep()
+        return "p2"
+
+# Game starts
+welcome_beep()
+print("--------Welcome to Rock Paper Scissors!-------")
+print("Choose match mode:\n" \
+"1 for Player vs Player \n" \
+"2 for Player vs Computer")
+mode = int(input("Enter your choice: "))
+
+p1_score = 0
+p2_score = 0
+comp_score = 0
+round_number = 1
+play = True
+
+while play:
+    print(f"\n--- Round {round_number} ---")
+    round_number += 1
+
+    if mode == 1:
+        p1_choice = input("Player 1, enter your choice (rock, paper, scissors): ").lower()
+        p2_choice = input("Player 2, enter your choice (rock, paper, scissors): ").lower()
+
+        if p1_choice not in options or p2_choice not in options:
+            print("Invalid choice! Please choose rock, paper, or scissors.")
+            continue
+
+        print(f"Player 1 chose: {p1_choice}")
+        print(f"Player 2 chose: {p2_choice}")
+        round_start_beep()
+
+        result = check_winner(p1_choice, p2_choice)
+        if result == "tie":
+            print("It's a tie!")
+        elif result == "p1":
+            print("Player 1 wins!")
+            p1_score += 1
+        else:
+            print("Player 2 wins!")
+            p2_score += 1
+
+        print("Results...")
+        time.sleep(1)
+        result_beep()
+        print(f"Score => Player 1: {p1_score}, Player 2: {p2_score}")
+
+    elif mode == 2:
+        p1_choice = input("Player, enter your choice (rock, paper, scissors): ").lower()
+        if p1_choice not in options:
+            print("Invalid choice! Please choose rock, paper, or scissors.")
+            continue
+
+        comp_choice = r.choice(options)
+        print(f"Player chose: {p1_choice}")
+        round_start_beep()
+        print(f"Computer chose: {comp_choice}")
+
+        result = check_winner(p1_choice, comp_choice)
+        if result == "tie":
+            print("It's a tie!")
+        elif result == "p1":
+            print("Player wins!")
+            p1_score += 1
+        else:
+            print("Computer wins!")
+            comp_score += 1
+
+        print("Results...")
+        time.sleep(1)
+        result_beep()
+        print(f"Score => Player: {p1_score}, Computer: {comp_score}")
+
+    else:
+        print("Invalid mode. Exiting.")
+        break
+
+    print("\nThanks for playing!")
+    play_again = input("Do you want to play again? (yes/no): ").lower()
+    if play_again != "yes":
+        play = False
+        print("\n🎉 Final Score Summary 🎉")
+        if mode == 1:
+            print(f"Player 1: {p1_score} | Player 2: {p2_score}")
+        else:
+            print(f"Player: {p1_score} | Computer: {comp_score}")
+        print("Goodbye!")
+        w.Beep(1000, 500)
