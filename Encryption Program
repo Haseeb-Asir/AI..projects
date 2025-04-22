@@ -1,0 +1,39 @@
+import random
+import string
+import winsound
+
+chars = string.punctuation + string.ascii_letters + string.digits + " "
+
+chars = list(chars)
+key = chars.copy()
+
+random.shuffle(key)
+
+print("Starting encryption....")
+winsound.Beep(1000, 1000)
+
+plain_text = input("Enter the text to encrypt: ")
+cipher_text = ""
+
+# Encryption
+for i in plain_text:
+    index = chars.index(i)
+    cipher_text += key[index]
+
+print("Encrypted text: ", cipher_text)
+winsound.Beep(1000, 1000)
+print("Encryption complete!")
+
+print("\nStarting decryption....")
+winsound.Beep(1000, 1000)
+
+# Use the encrypted text for decryption
+decrypted_text = ""
+
+for i in cipher_text:
+    index = key.index(i)
+    decrypted_text += chars[index]
+
+print("Decrypted text: ", decrypted_text)
+winsound.Beep(1000, 1000)
+print("Decryption complete!")
