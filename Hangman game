@@ -1,0 +1,89 @@
+# Hangman GAme
+
+import random
+words = ("haseeb","khoojan","apple", "banana", "cherry", "date", "elderberry", "fig", "grape")
+
+hangman_art = {0:(" ",
+                  " ",
+                  " "),
+               1:(" o ",
+                  "  ",
+                  "  "),
+
+               2:(" o ",
+                  " | ",
+                  "   "),
+               3:(" o ",
+                  
+                  "/| "),
+               4:(" o ",
+                  
+                  "/|\\"),
+
+               5:(" o ",
+                  
+                  "/|\\",
+                  "/  "),
+                  
+               6:(" o ",
+                   "/|\\",
+                  "/ \\")}
+
+def display_man(wrong_guess):
+    for i in hangman_art[wrong_guess]:
+        print(i)
+
+def display_hint(hint):
+    print(" ".join(hint))
+
+def display_answer(answer):
+    print(" ".join(answer))
+
+def main():
+    answer = random.choice(words)
+    hint = ["_" for _ in range(len(answer))]
+    wrong_guess = 0
+
+    guessed = set()
+
+    running = True
+
+    while running:
+        display_man(wrong_guess)
+        display_hint(hint)
+
+        guess = input("Guess a letter: ").lower()
+        if guess in guessed:
+            print("You already guessed that letter")
+            continue
+        
+        guessed.add(guess)
+
+        if len(guess) != 1 or not guess.isalpha():
+            
+            print("Invalid input")
+            continue 
+
+        if guess in answer:
+            for i in range(len(answer)):
+                if answer[i] == guess:
+                    hint[i] = guess
+            
+        else:
+            wrong_guess += 1
+        if "_" not in hint:
+            display_man(wrong_guess)
+            display_answer(answer)
+            print("You win............")
+            running = False
+        elif wrong_guess >= len(hangman_art) - 1:
+            display_man(wrong_guess)
+
+            print("The correct answer was:")
+            display_answer(answer)
+            print("You lose......")
+            
+            running = False
+        
+
+                    
