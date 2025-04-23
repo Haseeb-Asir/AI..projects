@@ -1,0 +1,99 @@
+#pYTHON SLOT MACHINE 
+import random
+import time
+import winsound
+
+
+def spin_row():
+    symbols = ["🍒", "🍉", "🍋", "🔔", "🌟"]
+    row = [random.choice(symbols) for _ in range(3)]
+    return row
+
+
+def print_row(row):
+    print("*****************")
+    print("  |  ".join(row))
+    print("*****************")
+
+def get_payout(row,bet):
+    if row[0] == row[1] == row[2]:
+        print("....You won....🎊🎉🎉")
+        if row[0] == "🍒":
+            return bet * 10
+        elif row[0] == "🍉":
+            return bet * 50
+        elif row[0] == "🍋":
+            return bet * 30
+        elif row[0] == "🔔":
+            return bet * 40
+        elif row[0] == "🌟":
+            return bet * 100
+    else :
+        return 0
+      
+
+def main():
+    balance = 100
+    winsound.Beep(1000, 500)
+    print()
+    print("*******************")
+    print("Welcome ot python Slot Machine")
+    print("Symbols : 🍒 🍉 🍋 🔔 🌟")
+    print("*********************")
+    
+    while balance > 0:
+        print(f"Current balance : {balance}")
+
+        bet = input("Enter your bet amount: ")
+
+        if not bet.isdigit():
+            print("please input valid number .......trying again")
+            continue
+        bet = int(bet)
+        if bet > balance:
+            print("You cannot bet more than your current balance")
+            continue
+        
+        if bet <= 0:
+            print("Bet must be greater than 0")
+            continue
+        balance -= bet
+
+        winsound.Beep(500, 1000)
+        print("Spinning the slot machine 🎰🎰.....")
+        time.sleep(2)
+
+
+        row = spin_row()
+        print(row)
+
+        print("Results are........")
+        winsound.Beep(1000, 500)
+
+        print_row(row)
+
+        payout = get_payout(row,bet)
+        
+        balance += payout
+        if payout > 0:
+            winsound.Beep(1000, 500)
+            print("\n\n\n")
+            print(f"You won....")
+            print()
+            print(f"Your payout is : {payout}")
+
+        else:
+            print()
+            print("You lost this round💔😭..... better luck next time")
+            print()
+
+        wish = input("Do you want to play again? (y/n): ")
+
+        if wish != "y":
+            print("Thanks for playing! Goodbye!")
+            break
+        else:
+            print("Starting a new game............")
+
+if __name__ == "__main__":
+    main()
