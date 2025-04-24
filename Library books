@@ -2,20 +2,25 @@ class Library:
     books = {}
 
     def add_book(self, title, author, year):
+        if not title or not author or not year:
+            return "❌ All fields are required to add a book."
         self.books[title] = {"author": author, "year": year}
         return f"✅ Book '{title}' added."
 
     def remove_book(self, title):
-        if title in self.books:
+        try:
+            if title not in self.books:
+                raise KeyError(f"⚠️ Book '{title}' not found.")
             del self.books[title]
             return f"❌ Book '{title}' removed."
-        return f"⚠️ Book '{title}' not found."
+        except KeyError as e:
+            return str(e)
 
     def show_book(self, title):
         book = self.books.get(title)
         if book:
             return f"📖 {title} by {book['author']} ({book['year']})"
-        return f"⚠️ Book not found."
+        return f"⚠️ Book '{title}' not found."
 
     def show_all_books(self):
         if not self.books:
@@ -23,38 +28,70 @@ class Library:
         return "\n".join([f"- {t}: {d['author']} ({d['year']})" for t, d in self.books.items()])
 
 
-lib = Library()
+def main_menu(library):
+    while True:
+        print("\n=== Library Menu ===")
+        print("1. Add Book")
+        print("2. Show Book")
+        print("3. Remove Book")
+        print("4. Show All Books")
+        print("5. Exit")
 
-while True:
-    print("\n=== Library Menu ===")
-    print("1. Add Book")
-    print("2. Show Book")
-    print("3. Remove Book")
-    print("4. Show All Books")
-    print("5. Exit")
+        try:
+            choice = int(input("Choose an option: "))
 
-    choice = input("Choose option: ")
+            if choice == 1:
+                title = input("Enter book title: ")
+                author = input("Enter author: ")
+                year = input("Enter year: ")
+                print(library.add_book(title, author, year))
 
-    if choice == '1':
-        title = input("Enter book title: ")
-        author = input("Enter author: ")
-        year = input("Enter year: ")
-        print(lib.add_book(title, author, year))
+            elif choice == 2:
+                title = input("Enter title to show: ")
+                print(library.show_book(title))
 
-    elif choice == '2':
-        title = input("Enter title to show: ")
-        print(lib.show_book(title))
+            elif choice == 3:
+                title = input("Enter title to remove: ")
+                print(library.remove_book(title))
 
-    elif choice == '3':
-        title = input("Enter title to remove: ")
-        print(lib.remove_book(title))
+            elif choice == 4:
+                print(library.show_all_books())
 
-    elif choice == '4':
-        print(lib.show_all_books())
+            elif choice == 5:
+                print("👋 Exiting Library. Goodbye!")
+                break
 
-    elif choice == '5':
-        print("👋 Exiting Library. Goodbye!")
-        break
+            else:
+                print("❌ Invalid option. Please choose a valid number (1-5).")
 
-    else:
-        print("❌ Invalid option. Try again.")
+        except ValueError:
+            print("❌ Invalid input. Please enter a number between 1 and 5.")
+
+def login():
+    print("🔐 Login to Library System")
+    attempts = 3
+    while attempts > 0:
+        username = input("Username: ")
+        password = input("Password: ")
+
+        if users.get(username) == password:
+            print(f"✅ Welcome, {username}!")
+            return True
+        else:
+            attempts -= 1
+            print(f"❌ Incorrect credentials. Attempts left: {attempts}")
+    print("🚫 Too many failed attempts. Exiting...")
+    return False
+
+
+# Main Program
+users = {
+    "haseeb": "1234",
+    "user1": "pass1"
+}
+
+# Attempt Login
+if login():
+    # If login successful, start the Library menu
+    library = Library()
+    main_menu(library)
