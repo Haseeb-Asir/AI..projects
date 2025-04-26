@@ -1,0 +1,11 @@
+import demoji
+
+text = "I love ❤️ Python! 😍"
+
+# Replace emojis with their names
+text_with_names = demoji.findall(text)
+
+ 
+
+print("Original text:", text)
+print("Text with emoji names:", text_with_names)
