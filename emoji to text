@@ -1,11 +1,23 @@
 import demoji
 
-text = "I love ❤️ Python! 😍"
+# Ask user for input
+user_text = input("Enter your text with emojis: ")
 
-# Replace emojis with their names
-text_with_names = demoji.findall(text)
+# Find emojis
+found_emojis = demoji.findall(user_text)
 
- 
+# Replace emojis with text
+clean_text = demoji.replace(user_text, replacement=lambda emoji, desc: f"[{desc}]")
 
-print("Original text:", text)
-print("Text with emoji names:", text_with_names)
+# Display results
+print("\n--- Emoji Analysis ---")
+print(f"Original Text: {user_text}")
+print(f"Clean Text: {clean_text}")
+print(f"Number of Emojis Found: {len(found_emojis)}")
+
+if found_emojis:
+    print("Emojis Found:")
+    for emoji, name in found_emojis.items():
+        print(f"{emoji} -> {name}")
+else:
+    print("No emojis found in the text.")
