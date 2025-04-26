@@ -1,0 +1,63 @@
+import requests
+
+def fetch_news(country, category, number_of_articles):
+    print("\nFetching top news...")
+    api_key = "a0702aedc3e44704aac32cdf7025236a"  # Replace with your API key
+
+    url = f"https://newsapi.org/v2/top-headlines?country={country}&category={category}&apiKey={api_key}"
+    response = requests.get(url)
+
+    print(f"HTTP Status Code: {response.status_code}")
+
+    if response.status_code == 200:
+        data = response.json()
+        if data.get('status') != 'ok':
+            error_message = data.get('message', 'Unknown error')
+            print(f"API Error: {error_message}")
+            return
+
+        articles = data.get("articles", [])
+
+        if not articles:
+            print(f"No articles found for country: {country} and category: {category}")
+            return
+
+        print("\nTop Headlines:\n")
+        for idx, article in enumerate(articles[:number_of_articles], start=1):
+            print(f"{idx}. {article.get('title', 'No Title')}")
+            source_name = article.get('source', {}).get('name', 'Unknown')
+            print(f"   Source: {source_name}")
+            print(f"   URL: {article.get('url', 'No URL')}\n")
+
+    else:
+        print("Failed to fetch news.")
+        error_data = response.json()
+        print(f"Error: {error_data.get('message', 'No error message provided')}")
+
+if __name__ == "__main__":
+    # Validate country code
+    country = input("Enter 2-letter country code (e.g., 'us' for USA, 'in' for India): ").lower()
+    if len(country) != 2 or not country.isalpha():
+        print("Invalid country code. Please use a 2-letter code like 'us' or 'in'.")
+        exit()
+
+    # Validate category
+    allowed_categories = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology']
+    print("\nAvailable categories:\n- " + "\n- ".join(allowed_categories))
+    category = input("\nEnter a category from the list above: ").lower()
+    if category not in allowed_categories:
+        print("Invalid category. Please choose from the listed options.")
+        exit()
+
+    # Validate number of articles
+    while True:
+        try:
+            number_of_articles = int(input("How many headlines do you want to see? "))
+            if number_of_articles < 1:
+                print("Please enter a positive number.")
+                continue
+            break
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+    fetch_news(country, category, number_of_articles)
