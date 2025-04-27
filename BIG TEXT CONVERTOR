@@ -1,0 +1,8 @@
+import pyfiglet
+
+TEXT = input("Enter text to convert to ASCII art: ")
+
+ascii_art = pyfiglet.figlet_format(f"{TEXT}", font="slant")
+
+# Print the result
+print(ascii_art)
