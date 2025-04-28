@@ -1,0 +1,32 @@
+import sounddevice as sd
+import numpy as np
+from scipy.io.wavfile import write
+import threading
+
+freq = 44100  # Sampling frequency
+channels = 1  # Mono recording
+recording = []
+is_recording = True
+
+def record_audio():
+    global recording, is_recording
+    with sd.InputStream(samplerate=freq, channels=channels) as stream:
+        while is_recording:
+            block, _ = stream.read(1024)
+            recording.append(block)
+
+# Start recording in a separate thread
+thread = threading.Thread(target=record_audio)
+thread.start()
+
+input("Recording... Press Enter to stop\n")
+is_recording = False
+thread.join()
+
+# Combine all blocks into one big array
+recording = np.concatenate(recording, axis=0)
+
+# Save the recording
+write("my_recording.wav", freq, recording)
+
+print("Recording saved successfully!")
