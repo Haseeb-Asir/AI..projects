@@ -1,0 +1,46 @@
+import random
+
+num = random.randint(1000, 10000)
+
+tries = 0
+
+n = int(input("Guess the number : "))
+
+
+if n == num:
+    print("..............you won 🙌❤🔥............")
+    print("..........You guessed it right!..........")
+    
+
+
+while n != num:
+    
+    tries += 1
+    answer = []
+    
+    n = str(n)
+    num = str(num)
+    
+    for i in range (len(n)):
+        if n[i] == num[i]:
+            answer.append(n[i])
+        else:
+            answer.append("_")
+            
+    
+    
+    print("sorry you guessed wrong , try again")
+    print("your numbers matched are : ", end="")
+    for i in answer:
+        print(i, end=" ")
+    
+    n = int(input("\nGuess the number again : "))
+    if n == int(num):
+        print("..............you won 🙌❤🔥............")
+        print(f"you took {tries} tries")
+        break
+    else:
+        continue   
+    
+        
+    
