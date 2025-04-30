@@ -1,7 +1,7 @@
 import requests
 from plyer import notification
 
-api= "0e7b4a23ef1dba87a86c62be9ebcd85b"
+api= "YOUR API KEY"
 city = input("Enter city name: ")
 url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api}&units=metric'
 
