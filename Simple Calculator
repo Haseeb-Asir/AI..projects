@@ -1,96 +1,52 @@
-# Calculator 
-# calculates based upon input 
-history = []
-def add(*args):
-    result = sum(args)
-    history.append(result)
-    return result
+import tkinter as tk
 
+# Function to update the display
+def button_click(value):
+    current = entry.get()
+    entry.delete(0, tk.END)
+    entry.insert(0, current + value)
+
+# Function to clear the display
+def clear():
+    entry.delete(0, tk.END)
+
+# Function to calculate the result
+def calculate():
+    try:
+        result = eval(entry.get())  # Evaluate the expression entered by the user
+        entry.delete(0, tk.END)
+        entry.insert(0, str(result))
+    except Exception as e:
+        entry.delete(0, tk.END)
+        entry.insert(0, "Error")
+
+# Set up the main window
+root = tk.Tk()
+root.title("Calculator")
+
+# Entry widget for the calculator display
+entry = tk.Entry(root, width=16, font=("Arial", 24), borderwidth=2, relief="solid", justify="right")
+entry.grid(row=0, column=0, columnspan=4)
+
+# Buttons for the calculator
+buttons = [
+    ("7", 1, 0), ("8", 1, 1), ("9", 1, 2), ("/", 1, 3),
+    ("4", 2, 0), ("5", 2, 1), ("6", 2, 2), ("*", 2, 3),
+    ("1", 3, 0), ("2", 3, 1), ("3", 3, 2), ("-", 3, 3),
+    ("0", 4, 0), ("C", 4, 1), ("=", 4, 2), ("+", 4, 3)
+]
+
+# Create buttons and add them to the window
+for (text, row, col) in buttons:
+    if text == "=":
+        btn = tk.Button(root, text=text, width=5, height=2, font=("Arial", 18), command=calculate)
+    elif text == "C":
+        btn = tk.Button(root, text=text, width=5, height=2, font=("Arial", 18), command=clear)
+    else:
+        btn = tk.Button(root, text=text, width=5, height=2, font=("Arial", 18), command=lambda t=text: button_click(t))
     
+    btn.grid(row=row, column=col)
 
-def subtract(*args):
-    sub = 0
-    for i in args:
-        if sub == 0:
-            sub = i
-        else:
-            sub -= i
-    history.append(sub)
-    return sub
-    
+# Start the Tkinter main loop
+root.mainloop()
 
-def division(*args):
-    div = 0
-    for i in args:
-        if div == 0:
-            div = i    
-        else:
-            div /= i
-    history.append(div)
-    return div
-    
-
-
-def multiply(*args):
-    mul = 1
-    for i in args:
-        if i == 0:
-            return 0
-        else: 
-            mul *= i
-    history.append(mul)
-    return mul
-    
-        
- 
-print("..............Welcome to the calculator!..................")
-print()
-
-print("Enter numbers you want to perform calclulation on and the operation you want to perform")
-print()
-num = 1
-tup = []
-while True:
-        
-        inp = input(f"Enter the number {num}: (-10 to exit) ")
-        inp = float(inp)
-
-        if inp == -10:
-                break
-        else:
-            num += 1
-            tup.append(inp)
-
-
-print("Enter the operation you want to perform: (add, subtract, multiply, divide)")
-print()
-opr = input("Enter the operation: (q to exit) ")
-
-while True:
-    
-    
-     if opr.lower() == 'q':
-            break
-     else:
-            if opr.lower() == 'add':
-                print("The sum is: ", add(*tup))
-                break
-            elif opr.lower() == 'subtract':
-                print("The difference is: ", subtract(*tup))
-                break
-            elif opr.lower() == 'multiply':
-                print("The product is: ", multiply(*tup))
-                break
-            elif opr.lower() == 'divide':
-                print("The quotient is: ", division(*tup))
-                break
-            else:
-                print("Invalid operation!")
-                break
-     
-
-     
-     
-print("History of calculations: ", history)
-
-print("         Thank you for using the calculator!        ")
