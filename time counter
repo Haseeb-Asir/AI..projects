@@ -1,16 +1,79 @@
-import time as t
+import tkinter as tk
+from tkinter import messagebox
+import time
+import threading
 
-start = int(input("Enter countdown start (in seconds): "))
+# Global control variables
+paused = False
+stopped = False
+current_time = 0
 
-def countdown():
-    for i in range(start, -1, -1):
-        seconds = i % 60
-        minutes = (i // 60) % 60
-        hours = i // 3600
-        print(f"{hours:02}:{minutes:02}:{seconds:02}", end="\r")
-        t.sleep(1)
+def start_countdown():
+    global paused, stopped, current_time
 
-print("Countdown started")
-countdown()
-print("\nCountdown finished 🎉")
-print("Time's up!")
+    try:
+        if current_time == 0:  # Fresh start
+            current_time = int(entry.get())
+    except ValueError:
+        messagebox.showerror("Invalid Input", "Please enter an integer.")
+        return
+
+    paused = False
+    stopped = False
+
+    def run_timer():
+        global current_time
+        while current_time >= 0 and not stopped:
+            if not paused:
+                hrs = current_time // 3600
+                mins = (current_time % 3600) // 60
+                secs = current_time % 60
+                time_label.config(text=f"{hrs:02}:{mins:02}:{secs:02}")
+                time.sleep(1)
+                current_time -= 1
+            else:
+                time.sleep(0.1)
+
+        if not stopped and current_time < 0:
+            messagebox.showinfo("Done", "⏰ Countdown Finished!")
+            time_label.config(text="Time's up 🎉")
+
+    threading.Thread(target=run_timer, daemon=True).start()
+
+def pause_countdown():
+    global paused
+    paused = not paused
+    pause_btn.config(text="Resume" if paused else "Pause")
+
+def reset_countdown():
+    global paused, stopped, current_time
+    paused = False
+    stopped = True
+    current_time = 0
+    time_label.config(text="00:00:00")
+    pause_btn.config(text="Pause")
+
+# GUI Setup
+root = tk.Tk()
+root.title("Countdown Timer")
+root.configure(bg="#d0f0fd") 
+tk.Label(root, text="Enter time (in seconds):").pack(pady=10)
+entry = tk.Entry(root)
+entry.pack()
+
+btn_frame = tk.Frame(root)
+btn_frame.pack(pady=10)
+
+start_btn = tk.Button(btn_frame, text="Start", command=start_countdown)
+start_btn.grid(row=0, column=0, padx=5)
+
+pause_btn = tk.Button(btn_frame, text="Pause", command=pause_countdown)
+pause_btn.grid(row=0, column=1, padx=5)
+
+reset_btn = tk.Button(btn_frame, text="Reset", command=reset_countdown)
+reset_btn.grid(row=0, column=2, padx=5) 
+
+time_label = tk.Label(root, text="00:00:00", font=("Arial", 24))
+time_label.pack(pady=20)
+
+root.mainloop()
