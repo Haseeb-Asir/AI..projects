@@ -1,28 +1,53 @@
-# Simple To-Do List
+import tkinter as tk
+from tkinter import messagebox
+
+# Initialize main window
+root = tk.Tk()
+root.title("To-Do List")
+root.geometry("400x400")
+root.configure(bg="#f0f8ff")  # Light blue background
+
 tasks = []
 
-while True:
-    print("\nTo-Do List:")
-    for i, task in enumerate(tasks, 1):
-        print(f"{i}. {task}")
-    
-    print("\nOptions: add | delete | quit")
-    action = input("Choose action: ").lower()
-    
-    if action == 'add':
-        task = input("Enter task: ")
+# Functions
+def add_task():
+    task = task_entry.get()
+    if task:
         tasks.append(task)
-    elif action == 'delete':
-        if not tasks:
-            print("No tasks to delete!")
-            continue
-        task_num = int(input("Enter task number to delete: ")) - 1
-        if 0 <= task_num < len(tasks):
-            removed = tasks.pop(task_num)
-            print(f"Removed: {removed}")
-        else:
-            print("Invalid task number!")
-    elif action == 'quit':
-        break
+        update_listbox()
+        task_entry.delete(0, tk.END)
     else:
-        print("Invalid action!")
+        messagebox.showwarning("Input Error", "Please enter a task.")
+
+def delete_task():
+    selected = listbox.curselection()
+    if selected:
+        index = selected[0]
+        removed = tasks.pop(index)
+        update_listbox()
+    else:
+        messagebox.showwarning("Selection Error", "Please select a task to delete.")
+
+def update_listbox():
+    listbox.delete(0, tk.END)
+    for i, task in enumerate(tasks, 1):
+        listbox.insert(tk.END, f"{i}. {task}")
+
+# Widgets
+task_entry = tk.Entry(root, width=30)
+task_entry.pack(pady=10)
+
+add_btn = tk.Button(root, text="Add Task", width=20, command=add_task)
+add_btn.pack(pady=5)
+
+delete_btn = tk.Button(root, text="Delete Task", width=20, command=delete_task)
+delete_btn.pack(pady=5)
+
+listbox = tk.Listbox(root, width=45, height=10)
+listbox.pack(pady=10)
+
+quit_btn = tk.Button(root, text="Quit", width=20, command=root.quit)
+quit_btn.pack(pady=5)
+
+# Run app
+root.mainloop()
