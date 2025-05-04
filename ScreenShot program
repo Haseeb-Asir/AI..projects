@@ -1,12 +1,74 @@
-# Program to take screenshot 
+import tkinter as tk
+from tkinter import messagebox
+from PIL import ImageGrab, ImageTk
+import datetime
 
-import pyscreenshot 
+# Initialize main window
+root = tk.Tk()
+root.title("Screenshot Tool")
+root.geometry("400x300")
+root.configure(bg="#e6f7ff")
 
-# To capture the screen 
-image = pyscreenshot.grab() 
+# Function to take a screenshot
+def take_screenshot():
+    try:
+        # Capture the full screen
+        screenshot = ImageGrab.grab()
 
-# To display the captured screenshot 
-image.show() 
+        # Resize screenshot for preview
+        preview = screenshot.resize((300, 200))
+        
+        # Convert image to Tkinter-compatible format
+        preview_img = ImageTk.PhotoImage(preview)
 
-# To save the screenshot 
-image.save("GeeksforGeeks.png") 
+        # Display preview
+        canvas.config(image=preview_img)
+        canvas.image = preview_img
+
+        # Store the screenshot for later saving
+        global captured_image
+        captured_image = screenshot
+
+        messagebox.showinfo("Screenshot Captured", "Screenshot captured successfully!")
+    except Exception as e:
+        messagebox.showerror("Error", f"An error occurred while capturing the screenshot: {e}")
+
+# Save screenshot function
+def save_screenshot():
+    try:
+        filename = entry.get().strip()
+        if not filename:
+            # Default filename with timestamp
+            filename = datetime.datetime.now().strftime("screenshot_%Y%m%d_%H%M%S")
+        
+        filepath = f"{filename}.png"
+
+        if 'captured_image' in globals():
+            captured_image.save(filepath)
+            messagebox.showinfo("Saved", f"Screenshot saved as {filepath}")
+        else:
+            messagebox.showerror("Error", "No screenshot to save. Please capture a screenshot first.")
+    except Exception as e:
+        messagebox.showerror("Error", f"An error occurred while saving the screenshot: {e}")
+
+# Widgets
+entry_label = tk.Label(root, text="Enter filename:", bg="#e6f7ff")
+entry_label.pack(pady=5)
+
+entry = tk.Entry(root, width=30)
+entry.pack(pady=5)
+
+canvas = tk.Label(root, bg="white")
+canvas.pack(pady=10)
+
+# Buttons
+btn_capture = tk.Button(root, text="📸 Capture", width=15, command=take_screenshot)
+btn_capture.pack(pady=10)
+
+btn_save = tk.Button(root, text="💾 Save", width=15, command=save_screenshot)
+btn_save.pack(pady=5)
+
+btn_exit = tk.Button(root, text="Exit", width=20, command=root.quit)
+btn_exit.pack(pady=5)
+
+root.mainloop()
