@@ -9,7 +9,7 @@ try:
     while True:
         choice = input("Do you want to enter time in 'years' or 'months'? ").strip().lower()
 
-        if choice == 'years':
+        if choice == 'year':
             time = float(input("Enter the time in years: "))
             # Yearly compounding
             amount = principal * (1 + rate / 100) ** time
@@ -18,7 +18,7 @@ try:
             print(f"📈 Total Amount after {time} years: ${amount:.2f}")
             break
 
-        elif choice == 'months':
+        elif choice == 'month':
             time = float(input("Enter the time in months: "))
             months = time
             rate_monthly = rate / 12
@@ -31,7 +31,7 @@ try:
             break
 
         else:
-            print("❌ Invalid input. Please enter 'years' or 'months'.")
+            print("❌ Invalid input. Please enter 'year' or 'month'.")
 
 except ValueError:
     print("⚠️ Please enter valid numeric values.")
